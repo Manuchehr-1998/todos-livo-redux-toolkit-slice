@@ -1,31 +1,40 @@
 import { Button } from "@mui/material";
-import { addNewTodo } from "../redux/todoSlice";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-export default function TodoForm({handleClose}) {
-  const [text, setText] = useState("");
+export default function TodoForm({ onSubmit, title,}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
 
-  const dispatch = useDispatch();
-
-  const handleAction = (e) => {
-    e.preventDefault()
-    dispatch(addNewTodo(text));
-    setText("");
-    handleClose()
+  const onSave = (data) => {
+    onSubmit(data);
   };
+  
+
+  useEffect(() => {
+    setValue("title", title);
+  }, [setValue, title]);
+
   return (
     <div className="flex flex-col items-center justify-center">
-      <form className="w-full max-w-sm" onSubmit={handleAction}>
+      <form onSubmit={handleSubmit(onSave)} className="w-full max-w-sm">
         <div className="mb-4">
           <input
+            {...register("title", {
+              required: "Заполните это поле",
+              minLength: {
+                value: 7,
+                message: "Минимум 7 символов",
+              },
+            })}
             className="block w-full px-2 py-1 leading-tight border border-gray-400 rounded appearance-none focus:outline-none focus:border-blue-500"
             placeholder="Title Todo"
-            name="title"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            required
           />
+          {errors.title && <p className="text-[red]">{errors.title.message}</p>}
         </div>
         <div className="flex items-center justify-center">
           <Button

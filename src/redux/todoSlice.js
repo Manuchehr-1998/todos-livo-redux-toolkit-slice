@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useId } from "react";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
@@ -33,19 +32,41 @@ export const deleteTodo = createAsyncThunk(
 
 export const addNewTodo = createAsyncThunk(
   "todos/addNewTodo",
-  async function (text, { dispatch }) {
+  async function (title, { dispatch }) {
     try {
       const todo = {
-        title: text,
+        title: title.title,
         userId: 1,
         completed: false,
       };
+      console.log(todo)
       const res = await axios.post(
         `https://jsonplaceholder.typicode.com/todos`,todo
       );
       const {data}=res
       data.id = crypto.randomUUID()
       dispatch(addTodo(data))
+    } catch (error) {
+
+    }
+  }
+);
+export const editNewTodo = createAsyncThunk(
+  "todos/editNewTodo",
+  async function (title,id,{ dispatch }) {
+    console.log(title);
+    try {
+      const todo = {
+        title: title.title,
+      };
+      console.log(todo)
+      const res = await axios.put(
+        `https://jsonplaceholder.typicode.com/todos/${id}`,todo
+      );
+      const {data}=res
+      data.id = crypto.randomUUID()
+      dispatch(addTodo(data))
+      console.log(title);
     } catch (error) {
 
     }

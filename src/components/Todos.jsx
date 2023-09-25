@@ -4,6 +4,8 @@ import { fetchTodos } from "../redux/todoSlice";
 
 import { Table } from "./tables/Table";
 import { Modal } from "./Modal";
+import { CreateModal } from "./CreateModal";
+import { Button } from "@mui/material";
 
 const Todos = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -15,7 +17,7 @@ const Todos = () => {
 
   useEffect(() => {
     dispatch(fetchTodos());
-  }, [dispatch]);
+  }, []);
 
   if (loading) {
     return <p>Загрузка...</p>;
@@ -35,11 +37,20 @@ const Todos = () => {
 
   return (
     <div>
-      <Modal
+      <div className="flex justify-center mt-5">
+      <Button
+          variant="contained"
+          className="px-4 py-2 font-bold animate__animated animate__slideInDown"
+          onClick={handleOpen}
+        >
+          Add Todos
+        </Button>
+      </div>
+      <CreateModal
         openAddModal={openAddModal}
         handleClose={handleClose}
         handleOpen={handleOpen}
-      ></Modal>
+      />
       <table>
         <caption className="m-4">Todos</caption>
         <thead className="border-solid border-2 border-slate-500 p-2">

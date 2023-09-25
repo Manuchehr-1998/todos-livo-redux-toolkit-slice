@@ -1,31 +1,19 @@
 import React from "react";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Zoom,
 } from "@mui/material";
-import TodoForm from "./TodoForm";
-import { CreateModal } from "./CreateModal";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Zoom ref={ref} {...props} />;
 });
 
-export const Modal = ({ openAddModal, handleClose,handleOpen }) => {
+export const Modal = ({ openAddModal, handleClose, children }) => {
   return (
     <>
-      <div className="flex justify-center p-4">
-        <Button
-          variant="contained"
-          className="px-4 py-2 font-bold animate__animated animate__slideInDown"
-          onClick={handleOpen}
-        >
-          Add Todos
-        </Button>
-      </div>
       <Dialog
         open={openAddModal}
         onClose={handleClose}
@@ -48,7 +36,9 @@ export const Modal = ({ openAddModal, handleClose,handleOpen }) => {
             X
           </IconButton>
         </DialogTitle>
-        <DialogContent><CreateModal handleClose={handleClose}/></DialogContent>
+        <DialogContent>
+          <div>{children}</div>
+        </DialogContent>
       </Dialog>
     </>
   );

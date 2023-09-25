@@ -1,8 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import { useDispatch } from "react-redux";
 import { deleteTodo } from "../../redux/todoSlice";
+import EditModal from "../EditModal";
 
 export const Table = ({ title, id, index }) => {
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const handleOpen = () => {
+    setOpenAddModal(true);
+  };
+  const handleClose = () => {
+    setOpenAddModal(false);
+  };
+
   const dispatch = useDispatch();
   return (
     <>
@@ -15,9 +24,15 @@ export const Table = ({ title, id, index }) => {
           <button onClick={() => dispatch(deleteTodo(id))}>Delete</button>
         </td>
         <td className="border-solid border-2 border-slate-400 p-2">
-          <button>Edit</button>
+          <button onClick={handleOpen}>Edit</button>
         </td>
       </tr>
+      <EditModal
+        openAddModal={openAddModal}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        title={title}
+      />
     </>
   );
 };
