@@ -4,19 +4,28 @@ import { Modal } from "./Modal";
 import { editNewTodo } from "../redux/todoSlice";
 import { useDispatch } from "react-redux";
 
-export default function EditModal({ openAddModal, handleClose, title }) {
+export default function EditModal({
+  openAddModal,
+  handleClose,
+  title,
+  id,
+  handleOpen,
+}) {
+
   const dispatch = useDispatch();
-
-  const onSubmit = () => {
-      dispatch(editNewTodo(title));
-      handleClose()
-      console.log(title);
-
+  
+  const onSubmit = (data) => {
+    dispatch(editNewTodo({ id, title: data.title }));
+    handleClose();
   };
 
   return (
-    <Modal openAddModal={openAddModal} handleClose={handleClose}>
-      <TodoForm onSubmit={onSubmit} title={title} />
+    <Modal
+      openAddModal={openAddModal}
+      handleClose={handleClose}
+      handleOpen={handleOpen}
+    >
+      <TodoForm onSubmit={onSubmit} title={title} id={id} />
     </Modal>
   );
 }

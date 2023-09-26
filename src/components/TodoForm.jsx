@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function TodoForm({ onSubmit, title,}) {
+export default function TodoForm({ onSubmit, title,id}) {
   const {
     register,
     handleSubmit,
@@ -11,7 +11,7 @@ export default function TodoForm({ onSubmit, title,}) {
   } = useForm();
 
   const onSave = (data) => {
-    onSubmit(data);
+    onSubmit(data,id);
   };
   
 

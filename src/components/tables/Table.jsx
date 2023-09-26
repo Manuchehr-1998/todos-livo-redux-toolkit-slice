@@ -1,18 +1,19 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTodo } from "../../redux/todoSlice";
 import EditModal from "../EditModal";
 
 export const Table = ({ title, id, index }) => {
   const [openAddModal, setOpenAddModal] = useState(false);
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpenAddModal(true);
   };
+  
   const handleClose = () => {
     setOpenAddModal(false);
   };
 
-  const dispatch = useDispatch();
   return (
     <>
       <tr className="border-solid border-2 border-slate-400">
@@ -32,6 +33,7 @@ export const Table = ({ title, id, index }) => {
         handleClose={handleClose}
         handleOpen={handleOpen}
         title={title}
+        id={id}
       />
     </>
   );

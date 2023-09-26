@@ -39,36 +39,31 @@ export const addNewTodo = createAsyncThunk(
         userId: 1,
         completed: false,
       };
-      console.log(todo)
+      console.log(todo);
       const res = await axios.post(
-        `https://jsonplaceholder.typicode.com/todos`,todo
+        `https://jsonplaceholder.typicode.com/todos`,
+        todo
       );
-      const {data}=res
-      data.id = crypto.randomUUID()
-      dispatch(addTodo(data))
-    } catch (error) {
-
-    }
+      const { data } = res;
+      data.id = crypto.randomUUID();
+      dispatch(addTodo(data));
+    } catch (error) {}
   }
 );
 export const editNewTodo = createAsyncThunk(
   "todos/editNewTodo",
-  async function (title,id,{ dispatch }) {
-    console.log(title);
+  async function (payload, { dispatch }) {
+    const { id, title } = payload;
+    console.log(id);
     try {
-      const todo = {
-        title: title.title,
-      };
-      console.log(todo)
       const res = await axios.put(
-        `https://jsonplaceholder.typicode.com/todos/${id}`,todo
+        `https://jsonplaceholder.typicode.com/todos/${id}`,
+        { title }
       );
-      const {data}=res
-      data.id = crypto.randomUUID()
-      dispatch(addTodo(data))
-      console.log(title);
+      const data = res.data;
+      dispatch(editTodo({ id: data.id, title: data.title }));
     } catch (error) {
-
+      console.error(error)
     }
   }
 );
@@ -87,6 +82,15 @@ const todoSlice = createSlice({
     removeTodo(state, action) {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload.id);
     },
+    editTodo(state, action) {
+      const { id, title } = action.payload;
+      state.todos = state.todos.map(item => {
+        if (item.id === id) {
+          item.title = title;
+        }
+        return {id: item.id, title: item.title}
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,5 +108,5 @@ const todoSlice = createSlice({
       });
   },
 });
-export const { removeTodo, addTodo } = todoSlice.actions;
+export const { removeTodo, addTodo, editTodo } = todoSlice.actions;
 export default todoSlice.reducer;
