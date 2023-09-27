@@ -6,9 +6,15 @@ import { Table } from "./tables/Table";
 import { Modal } from "./Modal";
 import { CreateModal } from "./CreateModal";
 import { Button } from "@mui/material";
+import Paginations from "./paginations/Paginations";
 
 const Todos = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
+   
+  const [currentPage,setCurrentPage]=useState(1)
+
+  const [todosPerpage]=useState(10)
+
   const dispatch = useDispatch();
 
   const { todos, loading, error } = useSelector(
@@ -34,6 +40,12 @@ const Todos = () => {
   const handleClose = () => {
     setOpenAddModal(false);
   };
+
+  const lastTodosIndex=currentPage+todosPerpage
+  const firstTodosIndex=lastTodosIndex-todosPerpage
+  const currentTodos=todos.slice(firstTodosIndex,lastTodosIndex)
+  
+  const paginate=(pageNumber)=>setCurrentPage(pageNumber)
 
   return (
     <div>
@@ -63,11 +75,17 @@ const Todos = () => {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo, index) => (
+          {currentTodos.map((todo, index) => (
             <Table index={index} key={index} {...todo} />
           ))}
         </tbody>
       </table>
+      <Paginations
+      currentPage={currentPage}
+      todosPerpage={todosPerpage}
+      totalTodos={todos.length}
+      paginate={paginate}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ export const fetchTodos = createAsyncThunk(
   async function () {
     try {
       const res = await axios.get(
-        `https://jsonplaceholder.typicode.com/todos?_limit=10`
+        `https://jsonplaceholder.typicode.com/todos?_limit=100`
       );
       const { data } = res;
       return data;
