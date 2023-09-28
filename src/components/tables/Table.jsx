@@ -17,14 +17,14 @@ export const Table = ({ title, id, index }) => {
   return (
     <>
       <tr className="border-solid border-2 border-slate-400">
-        <td className="border-solid border-2 border-slate-500 p-2">
+        <td className="border-solid border-2 border-slate-500 p-2 text-center">
           {index + 1}
         </td>
         <td className="border-solid border-2 border-slate-400 p-2">{title}</td>
-        <td className="border-solid border-2 border-slate-400 p-2">
+        <td className="border-solid border-2 border-slate-400 p-2 text-center">
           <button onClick={() => dispatch(deleteTodo(id))}>Delete</button>
         </td>
-        <td className="border-solid border-2 border-slate-400 p-2">
+        <td className="border-solid border-2 border-slate-400 p-2 text-center ">
           <button onClick={handleOpen}>Edit</button>
         </td>
       </tr>

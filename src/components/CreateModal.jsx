@@ -8,7 +8,7 @@ export const CreateModal = ({ handleClose, openAddModal,handleOpen }) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    dispatch(addNewTodo(data));
+    dispatch(addNewTodo({title: data.title}));
     handleClose();
   };
 
